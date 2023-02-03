@@ -10,6 +10,7 @@ type CartItem = {
   id: number;
   quantity: number;
   price: number;
+  name: string;
 };
 
 type ShoppingCartContext = {
@@ -17,11 +18,12 @@ type ShoppingCartContext = {
   openCart: () => void;
   closeCart: () => void;
   getItemQuantity: (id: number) => number;
-  increaseCartQuantity: (id: number, price: number) => void;
+  increaseCartQuantity: (id: number, price: number, name: string) => void;
   decreaseCartQuantity: (id: number) => void;
   removeFromCart: (id: number) => void;
   cartQuantity: number;
   cartItems: CartItem[];
+  emptyCart: any;
 };
 
 const ShoppingCartContext = createContext({} as ShoppingCartContext);
@@ -47,10 +49,10 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   function getItemQuantity(id: number) {
     return cartItems.find((item) => item.id === id)?.quantity || 0;
   }
-  function increaseCartQuantity(id: number, price: number) {
+  function increaseCartQuantity(id: number, price: number, name: string) {
     setCartItems((currItems) => {
       if (currItems.find((item) => item.id === id) == null) {
-        return [...currItems, { id, quantity: 1, price }];
+        return [...currItems, { id, quantity: 1, price, name: name }];
       } else {
         return currItems.map((item) => {
           if (item.id === id) {
@@ -83,6 +85,11 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     });
   }
 
+  function emptyCart() {
+    setCartItems((currItems) => {
+      return currItems.filter(() => false);
+    });
+  }
 
   return (
     <ShoppingCartContext.Provider
@@ -96,6 +103,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         cartItems,
         cartQuantity,
         id,
+        emptyCart,
       }}
     >
       {children}

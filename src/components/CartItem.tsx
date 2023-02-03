@@ -5,9 +5,10 @@ import {formatCurrency} from "../utilities/formatCurrency"
 type CartItemProps = {
   id: number
   quantity: number
+  name: string;
 }
 
-export function CartItem({ id, quantity }: CartItemProps) {
+export function CartItem({ id, quantity, name }: CartItemProps) {
   const { removeFromCart, cartItems } = useShoppingCart()
   const item = Object.values(cartItems).find(i => i.id === id)
   if (item == null) return null

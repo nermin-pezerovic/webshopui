@@ -36,7 +36,7 @@ export function StoreItem({ id, name, price, description }: StoreItemProps) {
               className="w-100"
               onClick={() => {
                 if (isLoggedIn()) {
-                  increaseCartQuantity(id, price);
+                  increaseCartQuantity(id, price, name);
                 } else {
                   navigate("/login");
                 }
@@ -57,7 +57,7 @@ export function StoreItem({ id, name, price, description }: StoreItemProps) {
                 <div>
                   <span className="fs-3">{quantity}</span> in cart
                 </div>
-                <Button onClick={() => increaseCartQuantity(id, price)}>
+                <Button onClick={() => increaseCartQuantity(id, price, name)}>
                   +
                 </Button>
               </div>

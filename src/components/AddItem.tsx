@@ -7,9 +7,9 @@ export function AddItem() {
   const { isLoggedIn } = useAuth();
 
   return (
-    <Row md={2} xs={1} lg={3} className="g-3">
-      <Card className="h-100">
-        <Card.Body className=" d-flex  flex-column align-items-center ">
+    <Row md={2} xs={1} lg={3} className="g-3 w-100 align-items-center d-flex flex-column">
+      <Card className="h-100 w-50">
+        <Card.Body className="d-flex flex-column align-items-center">
           <div className="mt-auto">
             <Button
               className="w-100"

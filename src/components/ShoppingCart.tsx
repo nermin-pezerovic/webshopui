@@ -10,7 +10,6 @@ type ShoppingCartProps = {
 
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const { closeCart, cartItems } = useShoppingCart();
-  console.log(cartItems);
   const navigate = useNavigate();
 
   return (

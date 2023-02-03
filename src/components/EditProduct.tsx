@@ -48,7 +48,6 @@ export function EditProduct() {
                 className="w-100"
                 onClick={() => {
                   if (isLoggedIn()) {
-                    console.log(productId+newName,newDescription,newPrice)
                     updateProduct(
                       productId,
                       newName,

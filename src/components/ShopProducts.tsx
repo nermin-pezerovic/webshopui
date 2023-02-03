@@ -12,12 +12,12 @@ export function ShopProducts(owner: any) {
 
   let error: string = didRequestFail();
   const products = getProducts();
-  console.log(products)
+
   return (
     <>
       <h1>{owner.owner.shop_name}</h1>
       <AddItem />
-      <Row md={2} xs={1} lg={3} className="g-3">
+      <Row md={2} xs={1} lg={3} className="g-3 m-1">
         {products.map(
           (
             item: JSX.IntrinsicAttributes & {

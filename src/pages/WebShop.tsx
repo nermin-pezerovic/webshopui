@@ -7,7 +7,6 @@ import { UseOwner } from "../context/OwnerProvider";
 export function WebShopPage() {
   const { enterShop, getProducts } = UseOwner();
   let id = useParams();
-  console.log(id)
 
    useEffect(() => {
      enterShop(id.id as string);

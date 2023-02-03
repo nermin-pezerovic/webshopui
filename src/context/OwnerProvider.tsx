@@ -19,9 +19,11 @@ type OwnerContext = {
   fetchMyShop: () => any;
   getOwner: () => any;
   didRequestFail: () => string;
-  createProduct: ({ name, description, price }: any) => any;
+  createProduct: ({ name, description, price, product_path }: any) => any;
   createWebshop: (shop_name: string) => any;
   updateProduct: (id: any, name: any, description: any, price: any) => any;
+  createOrder: (productIds: number[]) => any;
+  uploadImage: (imageFile: FormData) => any;
 };
 
 const OwnerContext = createContext({} as OwnerContext);
@@ -55,11 +57,34 @@ export function OwnerProvider({ children }: OwnerProviderProps) {
     return shops;
   }
 
-  function createProduct({ name, description, price }: any) {
+  const config = {
+    headers: {
+      "Content-type": "multipart/form-data",
+      Authorization: localStorage.getItem("token"),
+    },
+  };
+
+  function uploadImage(imageFile: FormData) {
+
+    axios
+      .post(`http://localhost:3000/api/v1/uploadImage`, imageFile, config)
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+
+        setError(err.response.data.message);
+      });
+    return "";
+  }
+
+  function createProduct({ name, description, price, product_path }: any) {
     axios
       .post(
         `http://localhost:3000/api/v1/createProduct`,
-        { name, description, price },
+        { name, description, price, product_path },
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -70,7 +95,6 @@ export function OwnerProvider({ children }: OwnerProviderProps) {
         const data = res.data;
         console.log(data);
 
-        navigate("/");
         return data;
       })
       .catch((err) => {
@@ -96,6 +120,32 @@ export function OwnerProvider({ children }: OwnerProviderProps) {
           newDescription: description,
           newPrice: price,
         },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+
+        navigate("/");
+        return data;
+      })
+      .catch((err) => {
+        console.log(err);
+
+        setError(err.response.data.message);
+      });
+    return "";
+  }
+
+  function createOrder(productIds: number[]) {
+    axios
+      .post(
+        `http://localhost:3000/api/v1/createOrder`,
+        { productIds },
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -172,8 +222,8 @@ export function OwnerProvider({ children }: OwnerProviderProps) {
       })
       .then((res) => {
         const data = res.data;
+        console.log(data)
         setProducts(data);
-        //navigate(`shop/${id}`);
         return data;
       })
       .catch((err) => {
@@ -226,6 +276,8 @@ export function OwnerProvider({ children }: OwnerProviderProps) {
         getOwner,
         createWebshop,
         updateProduct,
+        createOrder,
+        uploadImage,
       }}
     >
       {children}

@@ -7,10 +7,12 @@ import { UseOwner } from "../context/OwnerProvider";
 export function NewItem() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  const { createProduct } = UseOwner();
+  const { createProduct, uploadImage } = UseOwner();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState<File>();
+  const [fileName, setFileName] = useState<string>("");
 
   return (
     <Row md={1} xs={1} lg={1} className="g-3">
@@ -23,26 +25,48 @@ export function NewItem() {
                 <Form.Control
                   type="text"
                   placeholder="Product name"
-                  onChange={(e)=> setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formProductDescription">
                 <Form.Label>Product description</Form.Label>
-                <Form.Control type="text" placeholder="Product description" onChange={(e)=> setDescription(e.target.value)} />
+                <Form.Control
+                  type="text"
+                  placeholder="Product description"
+                  onChange={(e) => setDescription(e.target.value)}
+                />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formProductPrice">
                 <Form.Label>Product price</Form.Label>
-                <Form.Control type="number"  placeholder="Product price" onChange={(e)=> setPrice(e.target.value)} />
+                <Form.Control
+                  type="number"
+                  placeholder="Product price"
+                  onChange={(e) => setPrice(e.target.value)}
+                />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Check me out" />
+              <Form.Group>
+                <Form.Control
+                  id="exampleFormControlFile1"
+                  name="file"
+                  type="file"
+                  onChange={(e) => {
+                    e.preventDefault();
+                    setSelectedFiles((e.target as HTMLInputElement).files![0]);
+                    setFileName((e.target as HTMLInputElement).files![0].name);
+                  }}
+                />
               </Form.Group>
               <Button
                 className="w-100"
                 onClick={() => {
                   if (isLoggedIn()) {
-                    createProduct({name,description ,price});
+                    const product_path = fileName.replaceAll(/\s/g, "");
+                    const imageFile = new FormData();
+                    imageFile.append("file", selectedFiles!, product_path);
+                    createProduct({ name, description, price, product_path });
+                    uploadImage(imageFile);
+                    navigate("/store");
                   } else {
                   }
                 }}

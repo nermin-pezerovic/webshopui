@@ -14,9 +14,8 @@ type StoreItemProps = {
 export function MyStoreItem(props: StoreItemProps) {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  console.log(props);
   return (
-    <Card className="h-100">
+    <Card className="h-100 ">
       <Card.Body className="d-flex flex-column">
         <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
           <span className="fs-2">{props.name}</span>

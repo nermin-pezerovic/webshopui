@@ -11,7 +11,6 @@ export function Store() {
     fetchMyShop();
   }, []);
   const owner = getOwner();
-  console.log(owner);
 
   let error: string = didRequestFail();
 
