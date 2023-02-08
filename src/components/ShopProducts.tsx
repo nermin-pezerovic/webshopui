@@ -25,6 +25,7 @@ export function ShopProducts(owner: any) {
               name: string;
               price: number;
               description: string;
+              product_path:string;
             }
           ) => (
             <Col key={item.id}>

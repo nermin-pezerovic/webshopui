@@ -11,6 +11,7 @@ export function AddItem() {
       <Card className="h-100 w-50">
         <Card.Body className="d-flex flex-column align-items-center">
           <div className="mt-auto">
+            <div style={{margin:"2rem"}}>Create new item, specify name, price, description and upload a picture</div>
             <Button
               className="w-100"
               onClick={() => {

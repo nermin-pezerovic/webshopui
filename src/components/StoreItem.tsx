@@ -9,9 +9,16 @@ type StoreItemProps = {
   name: string;
   price: number;
   description: string;
+  product_path: string;
 };
 
-export function StoreItem({ id, name, price, description }: StoreItemProps) {
+export function StoreItem({
+  id,
+  name,
+  price,
+  description,
+  product_path,
+}: StoreItemProps) {
   const {
     getItemQuantity,
     increaseCartQuantity,
@@ -22,7 +29,6 @@ export function StoreItem({ id, name, price, description }: StoreItemProps) {
   const { isLoggedIn } = useAuth();
 
   const quantity = getItemQuantity(id);
-
   return (
     <Card className="h-100">
       <Card.Body className="d-flex flex-column">
@@ -30,6 +36,13 @@ export function StoreItem({ id, name, price, description }: StoreItemProps) {
           <span className="fs-2">{name}</span>
           <span className="ms-2 text-muted">{formatCurrency(price)}</span>
         </Card.Title>
+        <Card.Img
+          variant="top"
+          src={`http://localhost:3000/${product_path}`}
+          height="200px"
+          style={{ objectFit: "cover", marginBottom: "1.5rem" }}
+        />
+        <div style={{ marginBottom: "1.5rem" }}>{description}</div>
         <div className="mt-auto">
           {quantity === 0 ? (
             <Button

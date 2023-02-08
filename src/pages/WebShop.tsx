@@ -24,6 +24,7 @@ export function WebShopPage() {
               name: string;
               price: number;
               description: string;
+              product_path: string;
             }
           ) => (
             <Col key={item.id}>

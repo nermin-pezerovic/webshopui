@@ -9,6 +9,7 @@ type StoreItemProps = {
   name: string;
   price: number;
   description: string;
+  product_path:string;
 };
 
 export function MyStoreItem(props: StoreItemProps) {
@@ -21,6 +22,13 @@ export function MyStoreItem(props: StoreItemProps) {
           <span className="fs-2">{props.name}</span>
           <span className="ms-2 text-muted">{formatCurrency(props.price)}</span>
         </Card.Title>
+        <Card.Img
+          variant="top"
+          src={`http://localhost:3000/${props.product_path}`}
+          height="200px"
+          style={{ objectFit: "cover", marginBottom: "1.5rem" }}
+        />
+        <div style={{ marginBottom: "1.5rem" }}>{props.description}</div>
         <div className="mt-auto">
           {
             <Button
