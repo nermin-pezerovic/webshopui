@@ -1,0 +1,22 @@
+name: PR created
+run-name: ${{github.actor}} is making a PR
+on: 
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+jobs: 
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - run: |
+          echo "Building an image"
+          docker build -t webshop/webshop_ui . 
+      
+      - name: Boot up containers
+        run: docker compose up --detach
+
+      - name:  Run unit tests
+        run: |
+          echo "Running tests"
+          docker run --name webshop_ui_cont webshop/webshop_ui npm run test:unit
